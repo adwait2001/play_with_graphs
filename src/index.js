@@ -21,14 +21,12 @@ app.get('',(req,res)=>{
 })
 
 app.get('/stock',(req,res)=>{
-  stock_api((error,{price,change}={})=>{
+  stock_api((error,{body}={})=>{
     if (error) {
       return res.send({error})
     }
 
-    res.send(
-      {price:price,change:change}
-    )
+    res.send({body})
   })
 })
 
