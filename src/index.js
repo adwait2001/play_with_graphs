@@ -15,6 +15,7 @@ const app =express()
 const port=process.env.PORT||3000
 
 app.use(express.static(homepage))
+app.use(cors())
 app.set('view engine','hbs')
 app.set('views',viewpage)
 hbs.registerPartials(partialspath)

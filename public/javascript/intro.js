@@ -4,8 +4,8 @@ var chart = LightweightCharts.createChart(document.getElementById('charts'), {
 	width: 1500,
 	height: 600,
 	timeScale: {
-		timevisible:true,
-		secondsvisible:false
+		timevisible: true,
+		secondsvisible: false
 	},
 });
 
@@ -22,11 +22,11 @@ fetch('https://finplexgraph.herokuapp.com/stock').then(res => res.json()).then(d
 	candleSeries.setData(cdata);
 })
 
-const socket = io.connect('http://127.0.0.1:3000/');
+const socket = io.connect('/');
 
-socket.on('KLINE',(pl)=>{
-  //log(pl);
-  candleSeries.update(pl);
+socket.on('KLINE', (pl) => {
+	console.log(pl)
+	candleSeries.update(pl);
 });
 
 
