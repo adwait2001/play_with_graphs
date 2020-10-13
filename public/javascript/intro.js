@@ -11,7 +11,7 @@ var chart = LightweightCharts.createChart(document.getElementById('charts'), {
 
 var candleSeries = chart.addCandlestickSeries();
 
-fetch('/stock').then(res => res.json()).then(data => {
+fetch('https://finplexgraph.herokuapp.com/stock').then(res => res.json()).then(data => {
 	const cdata = []
 	const element = data["body"]
 	console.log(element)

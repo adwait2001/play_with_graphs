@@ -2,6 +2,7 @@ const express=require('express')
 const path=require('path')
 const hbs=require('hbs')
 const stock_api=require('./utils/api')
+const cors=require('cors')
 
 homepage=path.join(__dirname,'../public')
 viewpage=path.join(__dirname,'../templates/views')
@@ -20,7 +21,7 @@ app.get('',(req,res)=>{
   res.render('home')
 })
 
-app.get('/stock',(req,res)=>{
+app.get('/stock',cors(),(req,res)=>{
   stock_api((error,{body}={})=>{
     if (error) {
       return res.send({error})
