@@ -15,8 +15,8 @@ fetch('https://finplexgraph.herokuapp.com/stock').then(res => res.json()).then(d
 	const cdata = []
 	const element = data["body"]
 	console.log(element)
-	element.forEach(element => {
-		cdata.push({ time: element[0] / 1000, open: parseFloat(element[1]), high: parseFloat(element[2]), low: parseFloat(element[3]), close: parseFloat(element[4]) })
+	Array.from(element).forEach(element => {
+		cdata.push({time: element[0]/1000, open: parseFloat(element[1]), high: parseFloat(element[2]), low: parseFloat(element[3]), close: parseFloat(element[4]) })
 	});
 	console.log(cdata)
 	candleSeries.setData(cdata);
@@ -28,6 +28,7 @@ socket.on('KLINE', (pl) => {
 	console.log(pl)
 	candleSeries.update(pl);
 });
+
 
 
 
