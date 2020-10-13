@@ -22,5 +22,12 @@ fetch('https://finplexgraph.herokuapp.com/stock').then(res => res.json()).then(d
 	candleSeries.setData(cdata);
 })
 
+const socket = io.connect('http://127.0.0.1:3000/');
+
+socket.on('KLINE',(pl)=>{
+  //log(pl);
+  candleSeries.update(pl);
+});
+
 
 

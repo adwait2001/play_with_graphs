@@ -1,8 +1,10 @@
 const express=require('express')
 const path=require('path')
+const api = require('binance');
 const hbs=require('hbs')
 const stock_api=require('./utils/api')
 const cors=require('cors')
+const socket = require('socket.io');
 
 homepage=path.join(__dirname,'../public')
 viewpage=path.join(__dirname,'../templates/views')
@@ -31,7 +33,21 @@ app.get('/stock',cors(),(req,res)=>{
   })
 })
 
-
-app.listen(port,()=>{
+const server=app.listen(port,()=>{
   console.log('server started'+ port)
 })
+
+const io = socket(server);
+
+const bRest = new api.BinanceRest({
+  key: "", // Get this from your account on binance.com
+  secret: "", // Same for this
+  timeout: 15000, // Optional, defaults to 15000, is the request time out in milliseconds
+  recvWindow: 20000, // Optional, defaults to 5000, increase if you're getting timestamp errors
+  disableBeautification: false,
+  handleDrift: true
+});
+const binanceWS = new api.BinanceWS(true);
+const bws = binanceWS.onKline('BTCUSDT', '1m', (data) => {
+io.sockets.emit('KLINE',{time:Math.round(data.kline.startTime/1000),open:parseFloat(data.kline.open),high:parseFloat(data.kline.high),low:parseFloat(data.kline.low),close:parseFloat(data.kline.close)});
+});
