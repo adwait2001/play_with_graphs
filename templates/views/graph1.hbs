@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINEAR CHARTS</title>
+</head>
+
+<body>
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <div id="charts">
+
+    </div>
+
+
+    <div>
+        <p id="message"> </p>
+        <form>
+        <select name="curr" id="cars">
+            <option value="BTCUSDT">BITCOIN</option>
+            <option value="LTCBTC">LITECOIN</option>
+            <option value="ETHBTC">ETHEREUM</option>
+        </select>
+        <button onclick="submit">submit</button>
+        </form>
+    </div>
+
+    <script src="/javascript/charts.js"></script>
+
+</body>
+
+</html>

@@ -1,5 +1,4 @@
 
-
 var chart = LightweightCharts.createChart(document.getElementById('charts'), {
 	width: 1500,
 	height: 600,

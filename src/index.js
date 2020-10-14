@@ -5,6 +5,7 @@ const hbs=require('hbs')
 const stock_api=require('./utils/api')
 const cors=require('cors')
 const socket = require('socket.io');
+const stock_api2 = require('./utils/api2');
 
 homepage=path.join(__dirname,'../public')
 viewpage=path.join(__dirname,'../templates/views')
@@ -23,6 +24,10 @@ app.get('',(req,res)=>{
   res.render('home')
 })
 
+app.get('/graph1',(req,res)=>{
+  res.render('graph1')
+})
+
 app.get('/stock',cors(),(req,res)=>{
   stock_api((error,{body}={})=>{
     if (error) {
@@ -33,6 +38,16 @@ app.get('/stock',cors(),(req,res)=>{
   })
 })
 
+app.get('/api/linear',cors(),(req,res)=>{
+  console.log(req.query.curr)
+  stock_api2(req.query.curr,(error,{body}={})=>{
+    if (error) {
+      return res.send({error})
+    }
+
+    res.send({body})
+  })
+})
 const server=app.listen(port,()=>{
   console.log('server started'+ port)
 })
