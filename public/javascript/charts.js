@@ -23,7 +23,7 @@ form.addEventListener('submit', (e) => {
         const cdata = []
         const element = data["body"]
         Array.from(element).forEach(element => {
-            cdata.push({ time: element.time / 1000, value: element.price })
+            cdata.push({ time: element[0]/1000, value: parseFloat(element[2]) })
         });
         lineSeries.setData(cdata);
     })
