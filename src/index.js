@@ -36,11 +36,11 @@ app.get('',(req,res)=>{
   res.render('home')
 })
 
-app.get('/graph1',(req,res)=>{
+app.get('/graph1',cors(),(req,res)=>{
   res.render('graph1')
 })
 
-app.get('/graphapi',(req,res)=>{
+app.get('/graphapi',cors(),(req,res)=>{
   res.render('graphapi')
 })
 

@@ -1,6 +1,6 @@
 
 async function graphs() {
-    let url = '/graph1?symbol=BTCUSDT&time=1m'
+    let url = 'https://finplexgraph.herokuapp.com/graph1?symbol=BTCUSDT&time=1m'
     let response = await fetch(url);
 
     try {
