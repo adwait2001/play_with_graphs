@@ -13,9 +13,9 @@ const lineSeries = chart.addLineSeries();
 // const curr = document.getElementById('cars')
 // const curr2 = document.getElementById('bikes')
 
-const params=new URLSearchParams(window.location.search)
-value=params.get('symbol')
-value2=params.get('time')
+const params = new URLSearchParams(window.location.search)
+value = params.get('symbol')
+value2 = params.get('time')
 
 // form.addEventListener('submit', (e) => {
 //     e.preventDefault();
@@ -24,35 +24,21 @@ value2=params.get('time')
 //     value2=curr2.value
 //     console.log(value2)
 
-    fetch('/api/linear?curr='+value+'&curr2='+value2).then(res => res.json()).then(data => {
-        const cdata = []
-        const element = data["body"]
-        Array.from(element).forEach(element => {
-            cdata.push({ time: element[0]/1000, value: parseFloat(element[2]) })
-        });
-        lineSeries.setData(cdata);
-    })
+fetch('/api/linear?curr=' + value + '&curr2=' + value2).then(res => res.json()).then(data => {
+    const cdata = []
+    const element = data["body"]
+    Array.from(element).forEach(element => {
+        cdata.push({ time: element[0] / 1000, value: parseFloat(element[2]) })
+    });
+    lineSeries.setData(cdata);
+    abc();
+})
 
 
-    var ss=chart.takeScreenshot();
-    var img=ss.toDataURL("image/png").replace("image/png", "image/octet-stream");
 
-document.querySelector('span').innerHTML=img;
-    
-//     fetch('/saveImage', {
-//         method: 'POST',
-//         body: JSON.stringify({photo:img}),
-//         headers: {
-//             'Accept': 'application/json',
-//             'Content-Type': 'application/json'
-//           } })
-//       .then(response => response.json())
-//       .then(data => {
-//         console.log(data)
-//       })
-//       .catch(error => {
-//         console.error(error)
-//       })
-    
-// })
+function abc() {    
+    var ss = chart.takeScreenshot();
+    var img = ss.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    document.querySelector('span').innerHTML = img;
 
+}

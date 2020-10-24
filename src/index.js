@@ -7,8 +7,10 @@ const stock_api=require('./utils/api')
 const cors=require('cors')
 const socket = require('socket.io');
 const stock_api2 = require('./utils/api2');
+const stock_api3 = require('./utils/api3');
 const mongoose  = require('mongoose');
 const Photomodel = require('./models/photomodel');
+const Nightmare = require('nightmare');
 homepage=path.join(__dirname,'../public')
 viewpage=path.join(__dirname,'../templates/views')
 partialspath=path.join(__dirname,'../templates/partials')
@@ -41,7 +43,10 @@ app.get('/graph1',cors(),(req,res)=>{
 })
 
 app.get('/graphapi',cors(),(req,res)=>{
-  res.render('graphapi')
+  stock_api3(req.query.symbol,req.query.time).then((b)=>{
+    res.send({img:b})
+  })
+  
 })
 
 app.get('/stock',cors(),(req,res)=>{
