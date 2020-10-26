@@ -8,7 +8,8 @@ async function stock_api3 (symbol,time) {
       '--no-sandbox',
       '--disable-setuid-sandbox'
     ]
-  });  const page = await browser.newPage();
+  });  
+  const page = await browser.newPage();
   await page.goto('https://finplexgraph.herokuapp.com/graph1?symbol='+symbol+'&time='+time);
   await page.waitFor(3000)
   await page.waitForSelector('span')
