@@ -6,7 +6,7 @@ async function stock_api3 (symbol,time) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto('https://finplexgraph.herokuapp.com/graph1?symbol='+symbol+'&time='+time);
-  await page.waitFor(2000)
+  await page.waitFor(3000)
   await page.waitForSelector('span')
   const textContent = await page.evaluate(() => {
     return document.querySelector('span').textContent
