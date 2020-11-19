@@ -1,4 +1,5 @@
 
+
 var chart = LightweightCharts.createChart(document.getElementById('charts'), {
     width: 1500,
     height: 600,
@@ -16,6 +17,8 @@ const lineSeries = chart.addLineSeries();
 const params = new URLSearchParams(window.location.search)
 value = params.get('symbol')
 value2 = params.get('time')
+
+console.log("chart",chart)
 
 // form.addEventListener('submit', (e) => {
 //     e.preventDefault();
