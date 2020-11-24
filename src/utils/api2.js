@@ -6,7 +6,7 @@ const stock_api2=(currency,interval,callback) => {
 
     const url1='https://api.binance.com'
 
-    const query='/api/v3/klines?symbol='+currency+'&interval='+interval+'&limit=1000'
+    const query='/api/v3/klines?symbol='+currency+'&interval='+interval+'&limit=100'
 
     const url=url1+query
 

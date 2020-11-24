@@ -60,7 +60,7 @@ app.get('/stock',cors(),(req,res)=>{
 })
 
 app.get('/api/linear',cors(),(req,res)=>{
-  stock_api2(req.query.curr,req.query.curr2,(error,{body}={})=>{
+  stock_api2(req.query.symbol,req.query.time,(error,{body}={})=>{
     if (error) {
       return res.send({error})
     }

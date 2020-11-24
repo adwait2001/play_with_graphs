@@ -9,8 +9,11 @@ var chart = LightweightCharts.createChart(document.getElementById('charts'), {
 });
 
 var candleSeries = chart.addCandlestickSeries();
+const params = new URLSearchParams(window.location.search)
+value = params.get('symbol')
+value2 = params.get('time')
 
-fetch('https://finplexgraph.herokuapp.com/stock').then(res => res.json()).then(data => {
+fetch('/api/linear?symbol='+value+'&time='+value2).then(res => res.json()).then(data => {
 	const cdata = []
 	const element = data["body"]
 	console.log(element)
@@ -21,12 +24,7 @@ fetch('https://finplexgraph.herokuapp.com/stock').then(res => res.json()).then(d
 	candleSeries.setData(cdata);
 })
 
-const socket = io.connect('/');
 
-socket.on('KLINE', (pl) => {
-	console.log(pl)
-	candleSeries.update(pl);
-});
 
 
 
