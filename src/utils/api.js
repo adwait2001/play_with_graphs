@@ -7,7 +7,7 @@ const stock_api=(callback) => {
 
     const url1='https://api.binance.com'
 
-    const query='/api/v3/klines?symbol=BTCUSDT&interval=15m&limit=1000'
+    const query='/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=100'
 
     const url=url1+query
 
