@@ -1,7 +1,7 @@
 
 var chart = LightweightCharts.createChart(document.getElementById('charts'), {
-	width: 400,
-	height: 250,
+	width: 430,
+	height: 400,
 	timeScale: {
 		timevisible: true,
 		secondsvisible: false
