@@ -46,6 +46,7 @@ const bRest = new api.BinanceRest({
 });
 const binanceWS = new api.BinanceWS(true);
 
+
 app.get('',(req,res)=>{
   res.render('home')
 })
@@ -80,7 +81,7 @@ app.get('/api/linear',cors(),(req,res)=>{
 
     res.send({body})
   })
-  const bws = binanceWS.onKline(req.query.symbol,"1m", (data) => {
+  const bws = binanceWS.onKline(req.query.symbol,req.query.time, (data) => {
     io.sockets.emit('KLINE',{time:Math.round(data.kline.startTime/1000),open:parseFloat(data.kline.open),high:parseFloat(data.kline.high),low:parseFloat(data.kline.low),close:parseFloat(data.kline.close)});
     });
 })
@@ -104,8 +105,5 @@ const server=app.listen(port,()=>{
   console.log('server started'+ port)
 })
 
+
 const io = socket(server);
-
-
-
-
