@@ -24,6 +24,12 @@ fetch('/api/linear?symbol='+value+'&time='+value2).then(res => res.json()).then(
 	candleSeries.setData(cdata);
 })
 
+const socket = io.connect('/');
+
+socket.on('KLINE', (pl) => {
+	console.log(pl)
+	candleSeries.update(pl);
+});
 
 
 

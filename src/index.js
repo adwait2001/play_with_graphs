@@ -34,6 +34,18 @@ mongoose.connect(mongodbURL, {
     useCreateIndex: true
 }).then(console.log('database server is running')).catch(error=>console.log(error.reason))
 
+
+
+const bRest = new api.BinanceRest({
+  key: "", // Get this from your account on binance.com
+  secret: "", // Same for this
+  timeout: 15000, // Optional, defaults to 15000, is the request time out in milliseconds
+  recvWindow: 20000, // Optional, defaults to 5000, increase if you're getting timestamp errors
+  disableBeautification: false,
+  handleDrift: true
+});
+const binanceWS = new api.BinanceWS(true);
+
 app.get('',(req,res)=>{
   res.render('home')
 })
@@ -60,6 +72,7 @@ app.get('/stock',cors(),(req,res)=>{
 })
 
 app.get('/api/linear',cors(),(req,res)=>{
+    
   stock_api2(req.query.symbol,req.query.time,(error,{body}={})=>{
     if (error) {
       return res.send({error})
@@ -67,6 +80,9 @@ app.get('/api/linear',cors(),(req,res)=>{
 
     res.send({body})
   })
+  const bws = binanceWS.onKline(req.query.symbol,"1m", (data) => {
+    io.sockets.emit('KLINE',{time:Math.round(data.kline.startTime/1000),open:parseFloat(data.kline.open),high:parseFloat(data.kline.high),low:parseFloat(data.kline.low),close:parseFloat(data.kline.close)});
+    });
 })
 
 app.post('/saveImage',cors(),async(req,res)=>{
@@ -91,16 +107,5 @@ const server=app.listen(port,()=>{
 const io = socket(server);
 
 
-const bRest = new api.BinanceRest({
-  key: "", // Get this from your account on binance.com
-  secret: "", // Same for this
-  timeout: 15000, // Optional, defaults to 15000, is the request time out in milliseconds
-  recvWindow: 20000, // Optional, defaults to 5000, increase if you're getting timestamp errors
-  disableBeautification: false,
-  handleDrift: true
-});
-const binanceWS = new api.BinanceWS(true);
-const bws = binanceWS.onKline('BTCUSDT', '1m', (data) => {
-io.sockets.emit('KLINE',{time:Math.round(data.kline.startTime/1000),open:parseFloat(data.kline.open),high:parseFloat(data.kline.high),low:parseFloat(data.kline.low),close:parseFloat(data.kline.close)});
-});
+
 
