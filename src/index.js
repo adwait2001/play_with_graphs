@@ -11,6 +11,9 @@ const stock_api3 = require('./utils/api3');
 const mongoose  = require('mongoose');
 const Photomodel = require('./models/photomodel');
 const Nightmare = require('nightmare');
+const { request } = require('http');
+const { Socket } = require('dgram');
+const { Console } = require('console');
 homepage=path.join(__dirname,'../public')
 viewpage=path.join(__dirname,'../templates/views')
 partialspath=path.join(__dirname,'../templates/partials')
@@ -44,12 +47,24 @@ const bRest = new api.BinanceRest({
   disableBeautification: false,
   handleDrift: true
 });
-const binanceWS = new api.BinanceWS(true);
 
 
-app.get('',(req,res)=>{
-  res.render('home')
+app.get('/',(req,res)=>{
+  const binanceWS = new api.BinanceWS(true);
+  io.on('connection', function(socket) {
+    const bws = binanceWS.onKline(req.query.symbol,req.query.time, (data) => {
+      io.sockets.emit('KLINE',{name:req.query.symbol,time:(data.kline.startTime/1000),open:parseFloat(data.kline.open),high:parseFloat(data.kline.high),low:parseFloat(data.kline.low),close:parseFloat(data.kline.close)});
+      });  
+   
+    //Whenever someone disconnects this piece of code executed
+    socket.on('disconnect', function () {
+      console.log('parameter change')
+    });
+   });
+ 
+  res.render('home')  
 })
+
 
 app.get('/graph1',cors(),(req,res)=>{
   res.render('graph1')
@@ -78,12 +93,8 @@ app.get('/api/linear',cors(),(req,res)=>{
     if (error) {
       return res.send({error})
     }
-
     res.send({body})
   })
-  const bws = binanceWS.onKline(req.query.symbol,req.query.time, (data) => {
-    io.sockets.emit('KLINE',{time:Math.round(data.kline.startTime/1000),open:parseFloat(data.kline.open),high:parseFloat(data.kline.high),low:parseFloat(data.kline.low),close:parseFloat(data.kline.close)});
-    });
 })
 
 app.post('/saveImage',cors(),async(req,res)=>{
@@ -104,6 +115,8 @@ app.get('/saveImage',cors(),async(req,res)=>{
 const server=app.listen(port,()=>{
   console.log('server started'+ port)
 })
+
+
 
 
 const io = socket(server);
