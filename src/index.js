@@ -49,7 +49,7 @@ const bRest = new api.BinanceRest({
 });
 
 
-app.get('/',(req,res)=>{
+app.get('/',cors(),(req,res)=>{
   const binanceWS = new api.BinanceWS(true);
   io.on('connection', function(socket) {
     const bws = binanceWS.onKline(req.query.symbol,req.query.time, (data) => {
