@@ -37,7 +37,6 @@ const server=app.listen(port,()=>{
 
 
 const io = socket(server);
-io.set('transports', [ 'websocket' ]);
 const bRest = new api.BinanceRest({
   key: "", // Get this from your account on binance.com
   secret: "", // Same for this
