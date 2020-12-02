@@ -37,7 +37,7 @@ const server=app.listen(port,()=>{
 
 
 const io = socket(server);
-io.set('origins', 'https://finplexgraph.herokuapp.com/');
+io.set('origins', '*:*');
 const bRest = new api.BinanceRest({
   key: "", // Get this from your account on binance.com
   secret: "", // Same for this
