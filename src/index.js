@@ -59,7 +59,7 @@ const binanceWS = new api.BinanceWS(true);
    });
 
 app.get('/',cors(),(req,res)=>{
-
+  res.render('home')
 })
 
 

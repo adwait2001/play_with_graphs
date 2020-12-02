@@ -13,7 +13,7 @@ const params = new URLSearchParams(window.location.search)
 value = params.get('symbol')
 value2 = params.get('time')
 
-fetch('/api/linear?symbol='+value+'&time='+value2).then(res => res.json()).then(data => {
+fetch('https://finplexgraph.herokuapp.com/api/linear?symbol='+value+'&time='+value2).then(res => res.json()).then(data => {
 	const cdata = []
 	const element = data["body"]
 	Array.from(element).forEach(element => {
@@ -22,7 +22,7 @@ fetch('/api/linear?symbol='+value+'&time='+value2).then(res => res.json()).then(
 	candleSeries.setData(cdata);
 })
 
-const socket = io.connect('/',{query:'symbol='+value+'&time='+value2});
+const socket = io.connect('https://finplexgraph.herokuapp.com/',{query:'symbol='+value+'&time='+value2});
 
 socket.on('KLINE',(pl) => {
 	if (pl.name===value) {
