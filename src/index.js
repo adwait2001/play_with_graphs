@@ -28,16 +28,15 @@ hbs.registerPartials(partialspath)
 app.use(bodyParser.json({limit: '50mb'}));
 
 
-mongodbURL="mongodb://localhost:27017/finplex"
-
-//setting our database using mongoose
-mongoose.connect(mongodbURL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true
-}).then(console.log('database server is running')).catch(error=>console.log(error.reason))
 
 
+const server=app.listen(port,()=>{
+  console.log('server started'+ port)
+})
+
+
+
+const io = socket(server);
 
 const bRest = new api.BinanceRest({
   key: "", // Get this from your account on binance.com
@@ -48,12 +47,10 @@ const bRest = new api.BinanceRest({
   handleDrift: true
 });
 
-
-app.get('/',cors(),(req,res)=>{
-  const binanceWS = new api.BinanceWS(true);
+const binanceWS = new api.BinanceWS(true);
   io.on('connection', function(socket) {
-    const bws = binanceWS.onKline(req.query.symbol,req.query.time, (data) => {
-      io.sockets.emit('KLINE',{name:req.query.symbol,time:(data.kline.startTime/1000),open:parseFloat(data.kline.open),high:parseFloat(data.kline.high),low:parseFloat(data.kline.low),close:parseFloat(data.kline.close)});
+    const bws = binanceWS.onKline(socket.handshake.query['symbol'],socket.handshake.query['time'], (data) => {
+      io.sockets.emit('KLINE',{name:socket.handshake.query['symbol'],time:(data.kline.startTime/1000),open:parseFloat(data.kline.open),high:parseFloat(data.kline.high),low:parseFloat(data.kline.low),close:parseFloat(data.kline.close)});
       });  
    
     //Whenever someone disconnects this piece of code executed
@@ -61,6 +58,9 @@ app.get('/',cors(),(req,res)=>{
       console.log('parameter change')
     });
    });
+
+app.get('/',cors(),(req,res)=>{
+  
  
   res.render('home')  
 })
@@ -112,11 +112,4 @@ app.get('/saveImage',cors(),async(req,res)=>{
 })
 
 
-const server=app.listen(port,()=>{
-  console.log('server started'+ port)
-})
 
-
-
-
-const io = socket(server);

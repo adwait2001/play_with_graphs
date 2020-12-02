@@ -22,7 +22,7 @@ fetch('/api/linear?symbol='+value+'&time='+value2).then(res => res.json()).then(
 	candleSeries.setData(cdata);
 })
 
-const socket = io.connect('/',{forceNew:true});
+const socket = io.connect('/',{query:'symbol='+value+'&time='+value2});
 
 socket.on('KLINE',(pl) => {
 	if (pl.name===value) {
