@@ -37,7 +37,7 @@ const server=app.listen(port,()=>{
 
 
 const io = socket(server);
-io.set('origins', '*:*');
+io.set('transports', [ 'websocket' ]);
 const bRest = new api.BinanceRest({
   key: "", // Get this from your account on binance.com
   secret: "", // Same for this
@@ -60,7 +60,7 @@ const binanceWS = new api.BinanceWS(true);
    });
 
 app.get('/',cors(),(req,res)=>{
-  res.render('home')  
+
 })
 
 
