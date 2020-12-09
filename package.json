@@ -28,5 +28,8 @@
     "webshot": "^0.18.0",
     "webshot-node": "^0.18.2",
     "wscat": "^4.0.1"
+  },
+  "devDependencies": {
+    "electron": "^11.0.4"
   }
 }
